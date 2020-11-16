@@ -111,3 +111,11 @@ data
 .idea
 
 trash/
+
+# others
+*.pth
+*.pkl
+*.jpg
+*.xml
+*.json
+

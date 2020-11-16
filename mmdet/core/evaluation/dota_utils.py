@@ -185,6 +185,7 @@ def OBBDetComp4(dataset, results):
             rbboxes = result[label]
             # import pdb
             # pdb.set_trace()
+            # print(len(result))
             cls_name = dataset.CLASSES[label]
             if cls_name not in results_dict:
                 results_dict[cls_name] = []

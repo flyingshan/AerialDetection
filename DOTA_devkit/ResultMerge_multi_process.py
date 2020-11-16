@@ -159,31 +159,39 @@ def poly2origpoly(poly, x, y, rate):
 
 def mergesingle(dstpath, nms, nms_thresh, fullname):
     name = util.custombasename(fullname)
-    #print('name:', name)
+    # print("!!!!!!!!!!!!")
+    # print('name:', name)
+    # print('fullname: ', fullname)  work_dirs/faster_rcnn_obb_r50_fpn_1x_ssdd/Task1_results/s.txt
+
     dstname = os.path.join(dstpath, name + '.txt')
     with open(fullname, 'r') as f_in:
-        # print('fullname: ', fullname)
+        
         nameboxdict = {}
         lines = f_in.readlines()
         splitlines = [x.strip().split(' ') for x in lines]
         for splitline in splitlines:
+            # print(splitline)
             subname = splitline[0]
+            # print(subname)
             splitname = subname.split('__')
+            # print(splitname)
             oriname = splitname[0]
-            pattern1 = re.compile(r'__\d+___\d+')
-            #print('subname:', subname)
-            x_y = re.findall(pattern1, subname)
-            x_y_2 = re.findall(r'\d+', x_y[0])
-            x, y = int(x_y_2[0]), int(x_y_2[1])
+            # print(oriname)
+            # pattern1 = re.compile(r'__\d+___\d+')
+            # #print('subname:', subname)
+            # x_y = re.findall(pattern1, subname)
 
-            pattern2 = re.compile(r'__([\d+\.]+)__\d+___')
+            # x_y_2 = re.findall(r'\d+', x_y[0])
+            # x, y = int(x_y_2[0]), int(x_y_2[1])
 
-            rate = re.findall(pattern2, subname)[0]
+            # pattern2 = re.compile(r'__([\d+\.]+)__\d+___')
+
+            # rate = re.findall(pattern2, subname)[0]
 
             confidence = splitline[1]
             poly = list(map(float, splitline[2:]))
-            origpoly = poly2origpoly(poly, x, y, rate)
-            det = origpoly
+            # origpoly = poly2origpoly(poly, x, y, rate)
+            det = poly
             det.append(confidence)
             det = list(map(float, det))
             if (oriname not in nameboxdict):
@@ -206,6 +214,7 @@ def mergebase_parallel(srcpath, dstpath, nms, nms_thresh):
 
     mergesingle_fn = partial(mergesingle, dstpath, nms, nms_thresh)
     # pdb.set_trace()
+    # pool.map(mergesingle_fn, filelist) # buggy for me.
     pool.map(mergesingle_fn, filelist)
 
 def mergebase(srcpath, dstpath, nms, nms_thresh):

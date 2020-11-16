@@ -103,6 +103,7 @@ class BBoxHead(nn.Module):
                 cls_score, labels, label_weights, reduce=reduce)
             losses['acc'] = accuracy(cls_score, labels)
         if bbox_pred is not None:
+            # print(type(labels))
             pos_inds = labels > 0
             if self.reg_class_agnostic:
                 pos_bbox_pred = bbox_pred.view(bbox_pred.size(0), 4)[pos_inds]

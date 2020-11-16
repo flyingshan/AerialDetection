@@ -189,8 +189,9 @@ class CustomDataset(Dataset):
 
     def prepare_train_img(self, idx):
         img_info = self.img_infos[idx]
+        # print(img_info['filename'].split('\\')[-1]+'.jpg')
         # load image
-        img = mmcv.imread(osp.join(self.img_prefix, img_info['filename']))
+        img = mmcv.imread(osp.join(self.img_prefix, img_info['filename'].split('\\')[-1]+'.jpg'))
         # load proposals if necessary
         if self.proposals is not None:
             proposals = self.proposals[idx][:self.num_max_proposals]
@@ -266,6 +267,7 @@ class CustomDataset(Dataset):
         if self.with_mask:
             # gt_masks = self.mask_transform(ann['masks'], pad_shape,
             #                                scale_factor, flip)
+            # print(gt_masks.shape, pad_shape, scale_factor, flip)
             gt_masks = self.mask_transform(gt_masks, pad_shape,
                                            scale_factor, flip)
 
@@ -296,7 +298,8 @@ class CustomDataset(Dataset):
     def prepare_test_img(self, idx):
         """Prepare an image for testing (multi-scale and flipping)"""
         img_info = self.img_infos[idx]
-        img = mmcv.imread(osp.join(self.img_prefix, img_info['filename']))
+        # img = mmcv.imread(osp.join(self.img_prefix, img_info['filename']))
+        img = mmcv.imread(osp.join(self.img_prefix, img_info['filename'].split('\\')[-1]+'.jpg'))
         if self.proposals is not None:
             proposal = self.proposals[idx][:self.num_max_proposals]
             if not (proposal.shape[1] == 4 or proposal.shape[1] == 5):

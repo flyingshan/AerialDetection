@@ -194,6 +194,7 @@ def main():
                 if not isinstance(outputs[0], dict):
                     result_file = args.out + '.json'
                     results2json(dataset, outputs, result_file)
+                    # print('!!!!', result_file)
                     coco_eval(result_file, eval_types, dataset.coco)
                 else:
                     for name in outputs[0]:
